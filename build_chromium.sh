@@ -101,8 +101,23 @@ gn gen out/${CHROMIUM_BUILD_TYPE} --args="${EXTRA_OEGN}"
 
 
 #Compile
-# Build with ninja
-ninja -v -C ${SRC_BUILD}/out/Release -j 8 chrome chrome_sandbox mash:all | tee ${SRC_PKG}/build.log
+for (( ; ; )) ;do
+	# Build with ninja
+	ninja -v -C ${SRC_BUILD}/out/Release -j 8 chrome chrome_sandbox mash:all | tee ${SRC_PKG}/build.log
+	if [ $? -eq 0 ]; then
+		break
+	fi
+	DO_BREAK=1
+	for bin in brotli flatc character_data_generator protoc transport_security_state_generator proto_zero_plugin;do
+		if chrpath -l ${SRC_BUILD}/out/Release/host/${bin}| grep -q ${OECORE_NATIVE_SYSROOT} ; then
+			chrpath -r '/usr/lib:/lib' ${SRC_BUILD}/out/Release/host/${bin}
+			DO_BREAK=0
+		fi
+	done
+	if [ $DO_BREAK == 1 ];then
+		break;
+	fi
+done
 
 
 #Install
