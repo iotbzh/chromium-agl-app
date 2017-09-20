@@ -91,10 +91,10 @@ EXTRA_OEGN=" \
         is_official_build=true  \
 "
 set -x
-set -e
 cd ${SRC_BUILD}
 
 #Configure
+echo "Configure CHROMIUM"
 # Ninja complains if this is not correctly set.
 echo LASTCHANGE='3ea904e3488e7af8b03e29fc71d9b9998ffc325b' > build/util/LASTCHANGE
 echo LASTCHANGE='3ea904e3488e7af8b03e29fc71d9b9998ffc325b-refs/heads/master@{#497674}' > build/util/LASTCHANGE.blink
@@ -103,7 +103,7 @@ gn gen out/${CHROMIUM_BUILD_TYPE} --args="${EXTRA_OEGN}"
 
 
 #Compile
-
+echo "Compile CHROMIUM"
 #Add infinity to fix issue 002-Rpath
 for (( ; ; )) ;do
 	# Build with ninja
@@ -112,18 +112,22 @@ for (( ; ; )) ;do
 		break
 	fi
 	DO_BREAK=1
+	echo "Try Fix 002-Rpath"
 	for bin in brotli flatc character_data_generator protoc transport_security_state_generator proto_zero_plugin;do
-		if chrpath -l ${SRC_BUILD}/out/Release/host/${bin}| grep -q ${OECORE_NATIVE_SYSROOT} ; then
-			chrpath -r '/usr/lib:/lib' ${SRC_BUILD}/out/Release/host/${bin}
-			DO_BREAK=0
+		if [ -e ${SRC_BUILD}/out/Release/host/${bin}]; then
+			if chrpath -l ${SRC_BUILD}/out/Release/host/${bin}| grep -q ${OECORE_NATIVE_SYSROOT} ; then
+				chrpath -r '/usr/lib:/lib' ${SRC_BUILD}/out/Release/host/${bin}
+				DO_BREAK=0
+			fi
 		fi
 	done
 	if [ $DO_BREAK == 1 ];then
-		break;
+		echo "Something wrong append"
+		exit 1;
 	fi
 done
 
-
+echo "Install files"
 #Install
 
 if [ -f "${SRC_PKG}/google-chrome" ]; then
@@ -197,10 +201,10 @@ sed -i "s#ROOT_HOME#/home/root#" ${INST_PKG}/usr/bin/google-chrome
 # LD_LIBRARY_PATH line in the google-chromium script refers to it
 install -d ${INST_PKG}/usr/lib/chromium/
 if [ -n "" ]; then
-        install -m 0755 ${SRC_BUILD}/out/Release/lib/*.so ${INST_PKG}/usr/lib/chromium/
+	install -m 0755 ${SRC_BUILD}/out/Release/lib/*.so ${INST_PKG}/usr/lib/chromium/
 fi
 
-
+echo "that's all folks"
 
 
 
