@@ -17,12 +17,13 @@ CPUTARGET="arm64"
 #AR=
 #CC=
 #CXX=
-export BUILD_LD="ld "
 
 TARGET_CFLAGS=" -O2 -pipe -g -feliminate-unused-debug-types -fdebug-prefix-map=${SRC_PKG}=/usr/src/debug/chromium/${SRC_REV} -fdebug-prefix-map=${OECORE_NATIVE_SYSROOT}= -fdebug-prefix-map=${SDKTARGETSYSROOT}=  -fstack-protector-strong -pie -fpie -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security"
 TARGET_CPPFLAGS=""
 TARGET_CXXFLAGS=" -O2 -pipe -g -feliminate-unused-debug-types -fdebug-prefix-map=${SRC_PKG}=/usr/src/debug/chromium/${SRC_REV} -fdebug-prefix-map=${OECORE_NATIVE_SYSROOT}= -fdebug-prefix-map=${SDKTARGETSYSROOT}=  -fstack-protector-strong -pie -fpie -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security"
 TARGET_LDFLAGS="-Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fstack-protector-strong -Wl,-z,relro,-z,now"
+
+BUILD_LD="ld "
 BUILD_AR="ar"
 BUILD_CPP="gcc  -E"
 BUILD_CC="gcc "
@@ -30,6 +31,7 @@ BUILD_CXX="g++ "
 BUILD_CFLAGS="-isystem${OECORE_NATIVE_SYSROOT}/usr/include -O2 -pipe"
 BUILD_CXXFLAGS="-isystem${OECORE_NATIVE_SYSROOT}/usr/include"
 BUILD_LDFLAGS="-L${OECORE_NATIVE_SYSROOT}/usr/lib -L${OECORE_NATIVE_SYSROOT}/lib -Wl,-rpath-link,${OECORE_NATIVE_SYSROOT}/usr/lib -Wl,-rpath-link,${OECORE_NATIVE_SYSROOT}/lib -Wl,-rpath,${OECORE_NATIVE_SYSROOT}/usr/lib -Wl,-rpath,${OECORE_NATIVE_SYSROOT}/lib -Wl,-O1"
+
 STAGING_DIR_TARGET=${SDKTARGETSYSROOT}
 
 EXTRA_OEGN=" \
@@ -101,6 +103,8 @@ gn gen out/${CHROMIUM_BUILD_TYPE} --args="${EXTRA_OEGN}"
 
 
 #Compile
+
+#Add infinity to fix issue 002-Rpath
 for (( ; ; )) ;do
 	# Build with ninja
 	ninja -v -C ${SRC_BUILD}/out/Release -j 8 chrome chrome_sandbox mash:all | tee ${SRC_PKG}/build.log
