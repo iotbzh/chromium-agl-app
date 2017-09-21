@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<widget xmlns="http://www.w3.org/ns/widgets" id="chromium" version="0.1">
+  <name>Chromium</name>
+  <icon src="chromium.png"/>
+  <content src="chromium" type="application/x-executable"/>
+  <description>CHROMIUM App</description>
+  <author>Ronan Le Martret</author>
+  <license>GPL</license>
+  <feature name="urn:AGL:widget:file-properties">
+    <param name="google-chrome" value="executable" />
+    <param name="chrome" value="executable" />
+  </feature>
+</widget>
