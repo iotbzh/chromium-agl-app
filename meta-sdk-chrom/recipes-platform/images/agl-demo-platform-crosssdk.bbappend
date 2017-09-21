@@ -1,5 +1,3 @@
-#RDEPENDS_${PN} += " nativesdk-gn "
-
 TOOLCHAIN_HOST_TASK += " \
     nativesdk-gn \
     nativesdk-ninja \
