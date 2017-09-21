@@ -204,6 +204,10 @@ if [ -n "" ]; then
 	install -m 0755 ${SRC_BUILD}/out/Release/lib/*.so ${INST_PKG}/usr/lib/chromium/
 fi
 
+
+aarch64-agl-linux-strip --remove-section=.comment --remove-section=.note --strip-unneeded ${INST_PKG}/usr/bin/chromium/chrome
+aarch64-agl-linux-strip --remove-section=.comment --remove-section=.note --strip-unneeded ${INST_PKG}/usr/lib/chromium/*.so
+
 echo "that's all folks"
 
 
