@@ -7,7 +7,7 @@
 
 ```bash
 BBLAYERS =+ "\
-  ${METADIR}/sdk_chromium/meta-sdk-chrom \
+  ${METADIR}/chromium-agl-app/meta-sdk-chrom \
 "
 ```
 
@@ -43,6 +43,38 @@ source /xdt/sdk/environment-setup-aarch64-agl-linux
 ./build_chromium.sh
 ```
 
+## Package chromium into wgt file
+
+```bash
+./build_wgt.sh
+```
+
+## Install wgt
+
+Copy file
+
+```bash
+scp chromium_wgt/chromium.wgt root@YOUR_IP:/tmp
+```
+
+Instam wgt on the board
+
+```bash
+afm-util install /tmp/chromium.wgt
+```
+
+Check install
+
+```bash
+afm-util list
+```
+
+Start wgt
+
+```bash
+afm-util start chromium@0.1
+```
+
 ## Issues
 
 ### 001 Use ld-gold
@@ -74,10 +106,4 @@ Fix: use chrpath to change file rpath
 
 ```bash
 chrpath -r '/usr/lib:/lib' ${SRC_BUILD}/out/Release/host/${bin}
-```
-
-## Package chromium into wgt file
-
-```bash
-./build_wgt.sh
 ```

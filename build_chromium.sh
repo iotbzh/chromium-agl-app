@@ -130,8 +130,8 @@ done
 echo "Install files"
 #Install
 
-if [ -f "${SRC_PKG}/google-chrome" ]; then
-	install -Dm 0755 ${SRC_PKG}/google-chrome ${INST_PKG}/usr/bin/google-chrome
+if [ -f "${SRC_PKG}/chromium_file/google-chrome" ]; then
+	install -Dm 0755 ${SRC_PKG}/chromium_file/google-chrome ${INST_PKG}/usr/bin/google-chrome
 fi
 if [ -f "${SRC_PKG}/cef-simple" ]; then
 	install -Dm 0755 ${SRC_PKG}/cef-simple ${INST_PKG}/usr/bin/cef-simple
@@ -154,8 +154,8 @@ fi
 if [ -f "${SRC_BUILD}/out/Release/icudtl.dat" ]; then
 	install -Dm 0644 ${SRC_BUILD}/out/Release/icudtl.dat ${INST_PKG}/usr/bin/chromium/icudtl.dat
 fi
-if [ -f "${SRC_PKG}/google-chrome.desktop" ]; then
-	install -Dm 0644 ${SRC_PKG}/google-chrome.desktop ${INST_PKG}/usr/share/applications/google-chrome.desktop
+if [ -f "${SRC_PKG}/chromium_file/google-chrome.desktop" ]; then
+	install -Dm 0644 ${SRC_PKG}/chromium_file/google-chrome.desktop ${INST_PKG}/usr/share/applications/google-chrome.desktop
 fi
 if [ -f "${SRC_BUILD}/out/Release/product_logo_48.png" ]; then
 	install -Dm 0644 ${SRC_BUILD}/out/Release/product_logo_48.png ${INST_PKG}/usr/bin/chromium/product_logo_48.png
@@ -192,7 +192,7 @@ done
 
 # Add extra command line arguments to google-chrome script by modifying
 # the dummy "CHROME_EXTRA_ARGS" line
-sed -i "s/^CHROME_EXTRA_ARGS=\"\"/CHROME_EXTRA_ARGS=\" --use-gl=egl --ignore-gpu-blacklist --enable-gpu-rasterization --enable-zero-copy --enable-native-gpu-memory-buffers\"/" ${INST_PKG}/usr/bin/google-chrome
+sed -i "s/^CHROME_EXTRA_ARGS=\"\"/CHROME_EXTRA_ARGS=\" --use-gl=egl --ignore-gpu-blacklist --enable-gpu-rasterization --enable-zero-copy --enable-native-gpu-memory-buffers --mus --no-sandbox\"/" ${INST_PKG}/usr/bin/google-chrome
 
 # update ROOT_HOME with the root user's $HOME
 sed -i "s#ROOT_HOME#/home/root#" ${INST_PKG}/usr/bin/google-chrome

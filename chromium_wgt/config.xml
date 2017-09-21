@@ -2,12 +2,12 @@
 <widget xmlns="http://www.w3.org/ns/widgets" id="chromium" version="0.1">
   <name>Chromium</name>
   <icon src="chromium.png"/>
-  <content src="chromium" type="application/x-executable"/>
+  <content src="usr/bin/google-chrome" type="application/x-executable"/>
   <description>CHROMIUM App</description>
   <author>Ronan Le Martret</author>
   <license>GPL</license>
   <feature name="urn:AGL:widget:file-properties">
-    <param name="google-chrome" value="executable" />
-    <param name="chrome" value="executable" />
+    <param name="usr/bin/google-chrome" value="executable" />
+    <param name="usr/bin/chromium/chrome" value="executable" />
   </feature>
 </widget>

@@ -1,11 +1,11 @@
 #!/bin/sh
-
-export CHROME_DEVEL_SANDBOX=/usr/sbin/chrome-devel-sandbox
-export LD_LIBRARY_PATH=/usr/lib/chromium
+APP_ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/../../"
+export CHROME_DEVEL_SANDBOX=${APP_ROOT_DIR}/usr/sbin/chrome-devel-sandbox
+export LD_LIBRARY_PATH=${APP_ROOT_DIR}/usr/lib/chromium
 
 CHROME_EXTRA_ARGS=""
 if [ "`whoami`" = "root" ] ; then
 	CHROME_EXTRA_ARGS="${CHROME_EXTRA_ARGS} --user-data-dir=ROOT_HOME/.chromium/"
 fi
 
-/usr/bin/chromium/chrome ${CHROME_EXTRA_ARGS} $@
+${APP_ROOT_DIR}/usr/bin/chromium/chrome ${CHROME_EXTRA_ARGS} $@

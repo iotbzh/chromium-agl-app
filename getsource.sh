@@ -8,8 +8,6 @@ fi
 
 tar -xf ${SRC_TAR}
 
-cp chromium_file/* .
-
 patch < chromium_patch/api-keys.patch
 cd src/
 patch  -p1 < ../chromium_patch/0001-Rotate-gcc-toolchain-s-build-flags.patch
