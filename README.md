@@ -78,4 +78,6 @@ chrpath -r '/usr/lib:/lib' ${SRC_BUILD}/out/Release/host/${bin}
 
 ## Package chromium into wgt file
 
-TODO
+```bash
+./build_wgt.sh
+```
