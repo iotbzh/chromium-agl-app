@@ -107,14 +107,14 @@ echo "Compile CHROMIUM"
 #Add infinity to fix issue 002-Rpath
 for (( ; ; )) ;do
 	# Build with ninja
-	ninja -v -C ${SRC_BUILD}/out/Release -j 8 chrome chrome_sandbox mash:all | tee ${SRC_PKG}/build.log
+	ninja -v -C ${SRC_BUILD}/out/Release -j 8 chrome chrome_sandbox mash:all	
 	if [ $? -eq 0 ]; then
 		break
 	fi
 	DO_BREAK=1
 	echo "Try Fix 002-Rpath"
 	for bin in brotli flatc character_data_generator protoc transport_security_state_generator proto_zero_plugin;do
-		if [ -e ${SRC_BUILD}/out/Release/host/${bin}]; then
+		if [ -e ${SRC_BUILD}/out/Release/host/${bin} ]; then
 			if chrpath -l ${SRC_BUILD}/out/Release/host/${bin}| grep -q ${OECORE_NATIVE_SYSROOT} ; then
 				chrpath -r '/usr/lib:/lib' ${SRC_BUILD}/out/Release/host/${bin}
 				DO_BREAK=0
